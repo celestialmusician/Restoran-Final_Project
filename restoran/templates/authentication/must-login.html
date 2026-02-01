@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block section %}
+
+<section class="py-5 my-5">
+  <div class="container text-center">
+
+    <h2 class="text-danger mb-3">LOGIN REQUIRED</h2>
+
+    <p class="text-muted mb-4">You must login to place an order 🛒.</p>
+
+    <a href="{% url 'login' %}" class="btn btn-primary px-4 py-2">Login</a>
+
+  </div>
+</section>
+
+{% endblock %}

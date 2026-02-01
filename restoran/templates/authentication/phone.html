@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+<style>
+.auth-wrapper {
+  min-height: 100vh;
+  background: url('/static/img/login-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 16px;
+  color: #fff;
+  padding: 40px;
+}
+
+.auth-card input {
+  background: rgba(255,255,255,0.95);
+  border: none;
+}
+
+.auth-card input:focus {
+  box-shadow: none;
+}
+
+.social-icons i {
+  font-size: 18px;
+  margin-right: 12px;
+}
+</style>
+
+<section class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-10">
+        <div class="row auth-card">
+
+          <!-- LEFT SIDE -->
+          <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h1 class="fw-bold">Add Phone</h1>
+            <p class="text-light mt-3">
+              Secure your account by adding a verified phone number.
+              This helps with OTP login and account recovery.
+            </p>
+
+            <div class="social-icons mt-3">
+              <i class="fa fa-facebook"></i>
+              <i class="fa fa-twitter"></i>
+              <i class="fa fa-instagram"></i>
+              <i class="fa fa-youtube-play"></i>
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE -->
+          <div class="col-md-6">
+            <h3 class="mb-4">Add Phone Number</h3>
+
+            <form method="post">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                  <p class="text-danger small mt-1">
+                    {{ form.phone.errors.0 }}
+                  </p>
+                {% endif %}
+              </div>
+
+              <button type="submit" class="btn btn-warning w-100 fw-bold">
+                Add Phone
+              </button>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

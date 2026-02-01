@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block section %}
+
+<style>
+.auth-wrapper {
+  min-height: 100vh;
+  background: url('/static/img/login-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 16px;
+  color: #fff;
+  padding: 40px;
+}
+
+.info-box,
+.edit-box {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.profile-row {
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 12px 0;
+}
+
+.profile-label {
+  opacity: 0.8;
+}
+
+.auth-card input {
+  background: rgba(255,255,255,0.95);
+  border: none;
+}
+
+.auth-card input:focus {
+  box-shadow: none;
+}
+</style>
+
+<section class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-9">
+        <div class="auth-card">
+
+          <!-- HEADER -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">My Profile</h2>
+            <a href="{% url 'password-otp' %}" class="btn btn-warning fw-bold">
+              Change Password
+            </a>
+          </div>
+
+          <!-- PROFILE INFO -->
+          <div class="info-box mb-4">
+            <h5 class="fw-bold mb-3">Profile Information</h5>
+
+            <div class="row profile-row">
+              <div class="col-md-4 profile-label">Name</div>
+              <div class="col-md-8">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+            </div>
+
+            <div class="row profile-row">
+              <div class="col-md-4 profile-label">Email</div>
+              <div class="col-md-8">
+                {{ user.email }}
+              </div>
+            </div>
+
+            <div class="row profile-row">
+              <div class="col-md-4 profile-label">Phone</div>
+              <div class="col-md-8">
+                {% if user.phone and user.phone_verified %}
+                  {{ user.phone }}
+                  <span class="badge bg-success ms-2">Verified</span>
+                {% else %}
+                  <a href="{% url 'add-phone' %}" class="btn btn-sm btn-outline-light">
+                    <i class="fa fa-plus"></i> Add Phone
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- EDIT PROFILE -->
+          <div class="edit-box">
+            <h5 class="fw-bold mb-3">Edit Profile</h5>
+
+            <form method="post">
+              {% csrf_token %}
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="form-label text-light">First Name</label>
+                  {{ form.first_name }}
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-light">Last Name</label>
+                  {{ form.last_name }}
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label text-light">Email Address</label>
+                {{ form.email }}
+              </div>
+
+              <div class="text-end">
+                <button class="btn btn-warning fw-bold px-4">
+                  Save Changes
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

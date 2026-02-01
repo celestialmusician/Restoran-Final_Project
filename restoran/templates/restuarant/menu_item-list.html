@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+<section class="py-5">
+    <div class="container">
+
+        {% if request.user.is_authenticated and request.user.role == 'Admin' %}
+                    <div class="mb-4 text-end">
+                        <a href="{% url 'add-menu' %}" class="btn btn-primary">
+                            Add Menu
+                        </a>
+                    </div>
+                {% endif %}
+
+        <!-- Heading -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Our Menu</h2>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="d-flex justify-content-center gap-3 mb-5">
+
+            <a href="?category=All"
+               class="btn rounded-pill px-4
+               {% if category == 'All' or not category %}
+                   btn-outline-secondary active
+               {% else %}
+                   btn-outline-secondary
+               {% endif %}">
+               All
+            </a>
+
+            <a href="?category=Veg"
+               class="btn rounded-pill px-4
+               {% if category == 'Veg' %}
+                   btn-outline-success active
+               {% else %}
+                   btn-outline-success
+               {% endif %}">
+               Vegetarian
+            </a>
+
+            <a href="?category=Non-Veg"
+               class="btn rounded-pill px-4
+               {% if category == 'Non-Veg' %}
+                   btn-outline-danger active
+               {% else %}
+                   btn-outline-danger
+               {% endif %}">
+               Non-Vegetarian
+            </a>
+
+        </div>
+
+        <!-- Menu Items -->
+        <div class="row g-4">
+
+            {% for item in menu_items %}
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}"
+                         class="card-img-top"
+                         style="height: 320px; object-fit: cover;">
+                    {% endif %}
+
+                    <div class="card-body text-center d-flex flex-column">
+
+                        <h5 class="fw-semibold">
+                            {{ item.name }}
+                        </h5>
+
+                        <p class="text-muted small">
+                            {{ item.description }}
+                        </p>
+
+                        <p class="fw-bold text-success mb-3">
+                            ₹ {{ item.price }}
+                        </p>
+
+                        <!-- Order Now Button -->
+                        <a  href="{% url 'add-to-cart' item.uuid %}"
+                         class="btn rounded-pill mt-auto px-4
+                           {% if item.category == 'Veg' %}
+                              btn-success
+                           {% elif item.category == 'Non-Veg' %}
+                               btn-danger
+                          {% else %}
+                               btn-dark
+                         {% endif %}">
+                          Add to Cart
+
+
+                    </a>
+
+                    </div>
+                </div>
+            </div>
+
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No menu items available</p>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

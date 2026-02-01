@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+<section class="py-5">
+    <div class="container">
+
+        <!-- Heading -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Your Cart</h2>
+        </div>
+
+        {% if cart_items %}
+
+        <!-- Cart Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Image</th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for data in cart_items %}
+                    <tr>
+                        <!-- Image -->
+                        <td>
+                            {% if data.item.image %}
+                            <img src="{{ data.item.image.url }}"
+                                 alt="{{ data.item.name }}"
+                                 style="height:70px; width:70px; object-fit:cover; border-radius:8px;">
+                            {% else %}
+                            <span>No Image</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Item Name -->
+                        <td>
+                            <strong>{{ data.item.name }}</strong>
+                        </td>
+
+                        <!-- Price -->
+                        <td>₹ {{ data.item.price }}</td>
+
+                        <!-- Quantity -->
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <a href="{% url 'cart-decrease' data.item.uuid %}"
+                                   class="btn btn-sm btn-outline-danger rounded-circle">−</a>
+
+                                <span class="fw-bold">{{ data.quantity }}</span>
+
+                                <a href="{% url 'cart-increase' data.item.uuid %}"
+                                   class="btn btn-sm btn-outline-success rounded-circle">+</a>
+                            </div>
+                        </td>
+
+                        <!-- Item Total -->
+                        <td>₹ {{ data.item_total }}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Grand Total -->
+        <div class="text-end mt-3">
+            <h4>
+                Total Amount :
+                <span class="text-success">₹ {{ total_amount }}</span>
+            </h4>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-center gap-3 mt-4">
+
+            <a href="{% url 'menu_item-list' %}"
+               class="btn btn-outline-dark rounded-pill px-4">
+                Continue Ordering
+            </a>
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'booking-order' %}"
+                   class="btn btn-success rounded-pill px-4">
+                    Proceed to Order
+                </a>
+            {% else %}
+                <a href="{% url 'must-login' %}"
+                   class="btn btn-success rounded-pill px-4">
+                    Proceed to Order
+                </a>
+            {% endif %}
+
+        </div>
+
+        {% else %}
+
+        <!-- Empty Cart -->
+        <div class="text-center mt-5">
+            <p class="fs-5">Your cart is empty 😕</p>
+            <a href="{% url 'menu_item-list' %}"
+               class="btn btn-dark rounded-pill px-4 mt-3">
+                Browse Menu
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

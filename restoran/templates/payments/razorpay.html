@@ -1,0 +1,48 @@
+<div class="container py-5 text-center">
+    <h3 class="mb-3">Processing Payment...</h3>
+    <p>Please wait, do not refresh the page</p>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    var options = {
+        "key": "{{ RZP_CLIENT_ID }}",
+        "amount": "{{ amount|floatformat:0 }}",
+        "currency": "INR",
+        "name": "Vehicle Rental",
+        "description": "Vehicle Booking Payment",
+        "order_id": "{{ order_id }}",
+
+        "handler": function (response) {
+
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "{% url 'payment-verify' %}";
+
+            var csrfToken = "{{ csrf_token }}";
+
+            // CSRF
+            var csrfInput = document.createElement("input");
+            csrfInput.type = "hidden";
+            csrfInput.name = "csrfmiddlewaretoken";
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+
+            // Razorpay fields
+            ["razorpay_order_id", "razorpay_payment_id", "razorpay_signature"].forEach(function (key) {
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = response[key];
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+</script>

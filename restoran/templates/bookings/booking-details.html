@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block section %}
+
+<section class="py-5">
+  <div class="container">
+
+    <!-- Heading -->
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Booking Details</h2>
+      <p class="text-muted">Review your selected items before confirming</p>
+    </div>
+
+    <!-- Order Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>Image</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for data in cart_items %}
+          <tr>
+            <!-- Image -->
+            <td>
+              {% if data.item.image %}
+                <img src="{{ data.item.image.url }}"
+                     alt="{{ data.item.name }}"
+                     style="height:100px;width:100px;object-fit:cover;border-radius:8px;">
+              {% else %}
+                <span>No Image</span>
+              {% endif %}
+            </td>
+
+            <!-- Item -->
+            <td><strong>{{ data.item.name }}</strong></td>
+
+            <!-- Price -->
+            <td>₹ {{ data.item.price }}</td>
+
+            <!-- Quantity -->
+            <td>{{ data.quantity }}</td>
+
+            <!-- Item Total -->
+            <td>
+              ₹ {{ data.item.price|floatformat:2|add:"0"|floatformat:2 }}
+            </td>
+            <td>
+            {% if status == "BOOKED" %}
+  <span class="badge bg-primary px-4 py-2">BOOKED</span>
+{% elif status == "CANCELLED" %}
+  <span class="badge bg-danger px-4 py-2">CANCELLED</span>
+{% elif status == "PAID" %}
+  <span class="badge bg-success px-4 py-2">PAID</span>
+{% endif %}
+
+
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Grand Total -->
+    <div class="text-end mt-4">
+      <h4>
+        Grand Total :
+        <span class="text-success">₹ {{ total }}</span>
+      </h4>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+
+      <a href="{% url 'cart-page' %}"
+         class="btn btn-outline-dark px-4 rounded-pill">
+        Back to Cart
+      </a>
+
+      <div class="d-flex gap-3">
+        <a href="{% url 'booking-cancel' %}"
+           class="btn btn-outline-danger px-4 rounded-pill">
+          Cancel Order
+        </a>
+
+        {% if status != "CANCELLED" %}
+        <a href="{% url 'make-payment' booking.uuid %}"
+           class="btn btn-success px-5 rounded-pill">
+          Confirm Booking
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

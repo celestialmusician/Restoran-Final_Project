@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+<style>
+.login-wrapper {
+  min-height: 100vh;
+  background: url('/static/img/login-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.login-card {
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 16px;
+  color: #fff;
+  padding: 40px;
+}
+
+.login-card input {
+  background: rgba(255,255,255,0.9);
+  border: none;
+}
+
+.login-card input:focus {
+  box-shadow: none;
+}
+
+.social-icons i {
+  font-size: 18px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+</style>
+
+<section class="login-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-10">
+        <div class="row login-card">
+
+          <!-- LEFT SIDE -->
+          <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h1 class="fw-bold">Join With Us</h1>
+            <p class="text-light mt-3">
+              Create an account to explore delicious cuisines,
+              manage orders and enjoy exclusive offers.
+            </p>
+
+            <div class="social-icons mt-3">
+              <i class="fa fa-facebook"></i>
+              <i class="fa fa-twitter"></i>
+              <i class="fa fa-instagram"></i>
+              <i class="fa fa-youtube-play"></i>
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE -->
+          <div class="col-md-6">
+            <h3 class="mb-4">Sign Up</h3>
+
+            <form method="post">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <input
+                  type="text"
+                  name="first_name"
+                  class="form-control"
+                  placeholder="First Name"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <input
+                  type="text"
+                  name="last_name"
+                  class="form-control"
+                  placeholder="Last Name"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  placeholder="Email Address"
+                  required>
+              </div>
+
+              <!-- <div class="mb-3">
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Password"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <input
+                  type="password"
+                  name="confirm_password"
+                  class="form-control"
+                  placeholder="Confirm Password"
+                  required>
+              </div> -->
+
+              <button type="submit" class="btn btn-warning w-100 fw-bold">
+                Create Account
+              </button>
+
+              {% if error %}
+              <p class="text-danger mt-2 text-center">{{ error }}</p>
+              {% endif %}
+
+              <p class="small text-center mt-3">
+                Already have an account?
+                <a href="{% url 'login' %}" class="text-warning fw-bold">
+                  Sign In
+                </a>
+              </p>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
