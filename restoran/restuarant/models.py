@@ -25,7 +25,7 @@ class CategoryChoices(models.TextChoices):
 
     NON_VEG = 'Non-Veg', 'Non-Veg'
 
-    ALL = 'All', 'All'
+    ALL = 'Drinks', 'Drinks'
 
 
 class MenuItem(BaseClass):

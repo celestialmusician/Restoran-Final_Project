@@ -162,7 +162,8 @@ class AddMenuItemView(View):
         if form.is_valid():
             form.save()
             messages.success(request, "Menu item added successfully")
-            return redirect("menu-list")
+            return redirect("menu_item-list")
+
 
         messages.error(request, "Failed to add menu item")
         print(form.errors)

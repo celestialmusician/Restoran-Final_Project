@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block section %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<section class="py-5" style="background: linear-gradient(135deg,#020617,#0f172a); min-height:100vh;">
+
+<div class="container text-center text-white">
+
+<h2 class="mb-4 fw-bold">🍽 Select Your Table</h2>
+
+<style>
+.seat {
+  width: 50px;
+  height: 50px;
+  margin: 6px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+}
+
+.available { background:#22c55e; color:white; }
+.selected  { background:#facc15; color:black; }
+.booked    { background:#ef4444; color:white; opacity:0.6; cursor:not-allowed; }
+
+.confirm-btn {
+  margin-top:30px;
+  padding:12px 40px;
+  font-size:18px;
+  border-radius:30px;
+  background:#facc15;
+  border:none;
+}
+</style>
+
+<form method="post" id="bookingForm">
+{% csrf_token %}
+
+<input type="hidden" name="seat_ids" id="seatInput">
+
+{% for row in "ABCDEF" %}
+<div>
+
+<span>{{ row }}</span>
+
+{% for seat in seats %}
+{% if seat.seat_number|slice:":1" == row %}
+<button type="button"
+data-seat="{{ seat.id }}"
+class="seat {% if seat.is_booked %}booked{% else %}available{% endif %}"
+{% if seat.is_booked %}disabled{% endif %}>
+{{ seat.seat_number }}
+</button>
+{% endif %}
+{% endfor %}
+
+</div>
+{% endfor %}
+
+<button type="button" class="confirm-btn" onclick="confirmSeat()">Confirm Seats</button>
+
+</form>
+
+</div>
+</section>
+
+<script>
+let selected = [];
+
+document.querySelectorAll(".seat.available").forEach(btn => {
+  btn.addEventListener("click", function() {
+    const id = this.dataset.seat;
+
+    if (selected.includes(id)) {
+      selected = selected.filter(x => x !== id);
+      this.classList.remove("selected");
+      this.classList.add("available");
+    } else {
+      selected.push(id);
+      this.classList.remove("available");
+      this.classList.add("selected");
+    }
+
+    document.getElementById("seatInput").value = selected.join(",");
+  });
+});
+
+function confirmSeat() {
+
+  const isLoggedIn = {{ request.user.is_authenticated|yesno:"true,false" }};
+
+  if (!isLoggedIn) {
+    Swal.fire({
+      title: "Login required",
+      text: "Please login to confirm booking",
+      icon: "warning",
+      confirmButtonColor: "#facc15"
+    }).then(() => {
+      window.location.href = "{% url 'login' %}";
+    });
+    return;
+  }
+
+  if (selected.length === 0) {
+    Swal.fire("Select seats first!");
+    return;
+  }
+
+  Swal.fire({
+    title: "Confirm booking?",
+    text: selected.length + " seats selected",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#facc15"
+  }).then(result => {
+    if (result.isConfirmed) {
+      document.getElementById("bookingForm").submit();
+    }
+  });
+}
+</script>
+
+
+{% endblock %}

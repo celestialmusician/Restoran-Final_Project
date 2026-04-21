@@ -1,51 +1,47 @@
-{% extends 'base.html' %}
-
-{% block section %}
+{% extends 'base.html' %} {% block section %}
 
 <style>
-.login-wrapper {
-  min-height: 100vh;
-  background: url('/static/img/login-bg.jpg') center/cover no-repeat;
-  display: flex;
-  align-items: center;
-}
+  .login-wrapper {
+    min-height: 100vh;
+    background: url("/static/img/login-bg.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+  }
 
-.login-card {
-  background: rgba(0, 0, 0, 0.55);
-  border-radius: 16px;
-  color: #fff;
-  padding: 40px;
-}
+  .login-card {
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 16px;
+    color: #fff;
+    padding: 40px;
+  }
 
-.login-card input {
-  background: rgba(255,255,255,0.9);
-  border: none;
-}
+  .login-card input {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+  }
 
-.login-card input:focus {
-  box-shadow: none;
-}
+  .login-card input:focus {
+    box-shadow: none;
+  }
 
-.social-icons i {
-  font-size: 18px;
-  margin-right: 12px;
-  cursor: pointer;
-}
+  .social-icons i {
+    font-size: 18px;
+    margin-right: 12px;
+    cursor: pointer;
+  }
 </style>
 
 <section class="login-wrapper">
   <div class="container">
     <div class="row justify-content-center">
-
       <div class="col-lg-10">
         <div class="row login-card">
-
           <!-- LEFT SIDE -->
           <div class="col-md-6 d-flex flex-column justify-content-center">
             <h1 class="fw-bold">Join With Us</h1>
             <p class="text-light mt-3">
-              Create an account to explore delicious cuisines,
-              manage orders and enjoy exclusive offers.
+              Create an account to explore delicious cuisines, manage orders and
+              enjoy exclusive offers.
             </p>
 
             <div class="social-icons mt-3">
@@ -69,7 +65,8 @@
                   name="first_name"
                   class="form-control"
                   placeholder="First Name"
-                  required>
+                  required
+                />
               </div>
 
               <div class="mb-3">
@@ -78,7 +75,8 @@
                   name="last_name"
                   class="form-control"
                   placeholder="Last Name"
-                  required>
+                  required
+                />
               </div>
 
               <div class="mb-3">
@@ -87,7 +85,8 @@
                   name="email"
                   class="form-control"
                   placeholder="Email Address"
-                  required>
+                  required
+                />
               </div>
 
               <!-- <div class="mb-3">
@@ -124,10 +123,8 @@
               </p>
             </form>
           </div>
-
         </div>
       </div>
-
     </div>
   </div>
 </section>

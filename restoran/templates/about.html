@@ -1,28 +1,87 @@
 {% extends 'base.html' %}
-
 {% block section %}
-<section class="container my-5">
-  <div class="card p-4 shadow-sm">
-    <h3 class="mb-3">About Us</h3>
 
-    <p>
-      <strong>Welcome to Restoran!</strong>
-      Experience delightful dining with a warm and welcoming ambiance,
-      deliciously crafted dishes, and friendly hospitality.
-    </p>
+<style>
+.about-box {
+    background: #0f172a;
+    border: 2px solid #facc15;
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.25);
+    border-radius: 20px;
+    transition: 0.3s ease;
+}
 
-    <p>
-      At Restoran, we focus on serving <strong>fresh, high-quality meals</strong>
-      prepared with care and passion. Our chefs use carefully selected
-      ingredients to ensure great taste and quality in every dish.
-    </p>
+.about-box:hover {
+    box-shadow: 0 0 30px rgba(250, 204, 21, 0.6);
+}
 
-    <p>
-      Our inviting atmosphere makes us the perfect choice for
-      <strong>family dinners, romantic dates, and casual meetups</strong>.
-      We are committed to providing a memorable dining experience
-      where great food meets excellent service.
-    </p>
-  </div>
+.about-title::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    background: #facc15;
+    margin: 12px auto 0;
+    border-radius: 10px;
+}
+</style>
+
+<section class="py-5" style="background: linear-gradient(135deg,#0f172a,#1e293b); min-height:100vh;">
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+
+            <div class="about-box p-5 text-white">
+
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold about-title">🍽 About Restoran</h2>
+                    <p class="text-light">Where taste meets quality</p>
+                </div>
+
+                <p class="lead text-light">
+                    Welcome to <strong class="text-warning">Restoran</strong> —
+                    a place where food is crafted with passion and served with love.
+                    We believe every meal should be a memorable experience.
+                </p>
+
+                <p>
+                    Our chefs use fresh ingredients, premium spices, and authentic
+                    recipes to deliver flavors that make you come back again.
+                    From vegetarian delights to rich non-veg dishes and refreshing drinks,
+                    we serve happiness on every plate.
+                </p>
+
+                <p>
+                    Whether dining in or ordering online, Restoran promises
+                    quality, speed, and satisfaction. Your comfort and taste
+                    are always our priority.
+                </p>
+
+                <div class="row text-center mt-4">
+
+                    <div class="col-md-4">
+                        <h3 class="text-warning">10+</h3>
+                        <p>Years Experience</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3 class="text-warning">5K+</h3>
+                        <p>Happy Customers</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3 class="text-warning">100%</h3>
+                        <p>Quality Guarantee</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
 </section>
+
 {% endblock %}

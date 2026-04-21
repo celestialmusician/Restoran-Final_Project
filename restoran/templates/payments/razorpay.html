@@ -1,48 +1,57 @@
-<div class="container py-5 text-center">
-    <h3 class="mb-3">Processing Payment...</h3>
-    <p>Please wait, do not refresh the page</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<h2>Processing Payment...</h2>
+<p>Please wait, do not refresh the page</p>
 
 <script>
-    var options = {
-        "key": "{{ RZP_CLIENT_ID }}",
-        "amount": "{{ amount|floatformat:0 }}",
-        "currency": "INR",
-        "name": "Vehicle Rental",
-        "description": "Vehicle Booking Payment",
-        "order_id": "{{ order_id }}",
 
-        "handler": function (response) {
+var options = {
+    "key": "{{ RZP_CLIENT_ID }}",
+    "amount": "{{ amount }}",
+    "currency": "INR",
+    "name": "Restoran",
+    "description": "Food Booking",
+    "order_id": "{{ order_id }}",
 
-            var form = document.createElement("form");
-            form.method = "POST";
-            form.action = "{% url 'payment-verify' %}";
+    "handler": function (response){
 
-            var csrfToken = "{{ csrf_token }}";
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{% url 'payment-verify' %}";
 
-            // CSRF
-            var csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "csrfmiddlewaretoken";
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
+        var fields = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature
+        };
 
-            // Razorpay fields
-            ["razorpay_order_id", "razorpay_payment_id", "razorpay_signature"].forEach(function (key) {
-                var input = document.createElement("input");
-                input.type = "hidden";
-                input.name = key;
-                input.value = response[key];
-                form.appendChild(input);
-            });
-
-            document.body.appendChild(form);
-            form.submit();
+        for (var key in fields) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = fields[key];
+            form.appendChild(input);
         }
-    };
 
-    var rzp1 = new Razorpay(options);
-    rzp1.open();
+        document.body.appendChild(form);
+        form.submit();
+    },
+
+    "theme": {
+        "color": "#28a745"
+    }
+};
+
+var rzp = new Razorpay(options);
+rzp.open();
+
 </script>
+
+</body>
+</html>

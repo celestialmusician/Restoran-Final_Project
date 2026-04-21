@@ -21,5 +21,13 @@ urlpatterns=[
     path('password-otp/',views.ChangePasswordOTPView.as_view(),name='password-otp'),
 
     path('change-password/',views.ChangePassWordView.as_view(),name='change-password'),
-    
+
+    path('contact/', views.ContactView.as_view(), name='contact'),
+
+    path('table-booking/', views.TableBookingView.as_view(), name='table-booking'),
+
+
+
+
+   
 ]

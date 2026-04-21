@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block section %}
+
+<!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  var msg = "{% for message in messages %}{{ message|escapejs }}{% endfor %}";
+
+  if (msg) {
+    Swal.fire({
+      title: "Success 🎉",
+      text: msg,
+      icon: "success",
+      confirmButtonColor: "#facc15",
+      background: "#0f172a",
+      color: "#ffffff"
+    });
+  }
+
+});
+</script>
+{% endif %}
+
+<style>
+.contact-box {
+    background: #0f172a;
+    border: 2px solid #facc15;
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.25);
+    border-radius: 20px;
+    transition: 0.3s ease;
+}
+
+.contact-box:hover {
+    box-shadow: 0 0 30px rgba(250, 204, 21, 0.6);
+}
+
+.contact-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: #facc15;
+    margin: 12px auto 0;
+    border-radius: 10px;
+}
+
+.contact-input {
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: white;
+}
+
+.contact-input:focus {
+    border-color: #facc15;
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+    background: #1e293b;
+    color: white;
+}
+
+.contact-btn {
+    background: #facc15;
+    color: #111;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.6);
+    transition: 0.3s ease;
+}
+
+.contact-btn:hover {
+    background: #eab308;
+    transform: translateY(-3px);
+}
+</style>
+
+<section class="py-5" style="background: linear-gradient(135deg,#0f172a,#1e293b); min-height:100vh;">
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="contact-box p-5 text-white">
+
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold contact-title">📞 Contact Us</h2>
+                    <p class="text-light">We’d love to hear from you</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control contact-input" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control contact-input" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea name="message" rows="4" class="form-control contact-input" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn contact-btn w-100 rounded-pill">
+                        Send Message
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</section>
+
+{% endblock %}

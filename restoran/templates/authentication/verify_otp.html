@@ -1,10 +1,8 @@
-{% extends 'base.html' %}
-{% block section %}
+{% extends 'base.html' %} {% block section %}
 <div class="container col-md-4 mt-5">
   <h3 class="text-center">Verify OTP</h3>
   <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    {% csrf_token %} {{ form.as_p }}
     <button class="btn btn-success w-100">Verify</button>
   </form>
 </div>

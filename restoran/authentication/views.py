@@ -22,6 +22,11 @@ from django.utils.decorators import method_decorator
 
 from .permissions import permitted_user_roles
 
+from django.views.generic import TemplateView
+
+from .models import TableSeat
+
+
 
 # Create your views here.
 
@@ -407,6 +412,70 @@ class ChangePassWordView(View):
 
         return render(request,self.template,context=data)
     
+
+    from django.views.generic import TemplateView
+
+
+from django.views.generic import TemplateView
+
+class ContactView(TemplateView):
+
+    template_name = "contact.html"
+
+
+from django.views.generic import TemplateView
+
+from django.contrib import messages
+
+class ContactView(TemplateView):
+
+    template_name = "contact.html"
+
+    def post(self, request):
+
+        messages.success(request, "Message sent successfully ✅")
+        
+        return self.get(request)
+    
+
+
+
+class TableBookingView(View):
+
+    def get(self, request):
+        
+
+        if not request.user.is_authenticated:
+
+            TableSeat.objects.update(is_booked=False)
+
+        seats = TableSeat.objects.all()
+
+        return render(request, "table_booking.html", {"seats": seats})
+
+    def post(self, request):
+
+        if not request.user.is_authenticated:
+
+            return redirect("login")
+
+        seat_ids = request.POST.get("seat_ids", "")
+
+        if seat_ids:
+
+            seat_ids = seat_ids.split(",")
+
+            for sid in seat_ids:
+
+                seat = TableSeat.objects.get(id=int(sid))
+
+                seat.is_booked = True
+
+                seat.save()
+
+        seats = TableSeat.objects.all()
+
+        return render(request, "table_booking.html", {"seats": seats})
    
     
         

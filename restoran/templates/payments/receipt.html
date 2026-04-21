@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block section %}
+
+<style>
+.auth-wrapper {
+  min-height: 100vh;
+  background: url('/static/img/login-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 18px;
+  color: #fff;
+  padding: 40px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+.receipt-line {
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 8px 0;
+  font-size: 15px;
+}
+</style>
+
+<section class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-6">
+        <div class="auth-card text-center">
+
+          <h2 class="text-success fw-bold mb-3">
+            Payment Successful ✅
+          </h2>
+
+          <div class="receipt-line">
+            Booking ID: {{ booking.uuid }}
+          </div>
+
+          <div class="receipt-line fs-4 text-success fw-bold">
+            ₹ {{ booking.total_amount }}
+          </div>
+
+          <div class="receipt-line">
+            <span class="badge bg-success px-4 py-2 fs-6">
+              PAID
+            </span>
+          </div>
+
+          <hr class="text-light">
+
+          <p class="small">
+            Transaction ID: {{ transaction.rzp_payment_id }}
+          </p>
+
+          <a href="{% url 'menu_item-list' %}"
+             class="btn btn-warning mt-3 px-4 rounded-pill fw-bold">
+            Back to Menu
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
